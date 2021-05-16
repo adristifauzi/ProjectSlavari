@@ -1,0 +1,143 @@
+import xml.etree.ElementTree as ET
+mytree = ET.parse('books.xml')
+myroot = mytree.getroot()
+
+def no_id(idbook):
+    # FIND THE ID INFORMATION
+    for x in myroot.findall('Book'):
+        y = x.attrib['id']
+        if y == idbook:
+            isbn = x.find('ISBN').text
+            author = x.find('Author').text
+            title = x.find('Title').text
+            publisher = x.find('Publisher').text
+            pages = x.find('Printing').text
+            year = x.find('Year_of_publishing').text
+            format = x.find('Format').text
+            price = x.find('Price').text
+            print('Информация об идентификационном номере книги: ' + y + '\n'
+            'Номер ISBN: ' + isbn + '\n'
+            'Author: ' + author + '\n'
+            'Заголовок: ' + title + '\n'
+            'Издатель: ' + publisher + '\n'
+            'Печать: ' + pages + '\n'
+            'Год публикации: ' + year + '\n'
+            'Формат: ' + format + '\n'
+            'Цена: ' + price + '\n')
+            if author == '':
+                print('Идентификатор книги недействителен')
+    return
+def isbn(isbn_input):
+    #FIND THE DATA BY ISBN
+    for x in myroot.findall('Book'):
+        y = x.attrib['id']
+        isbn = x.find('ISBN').text
+        if str(isbn) == isbn_input:
+            author = x.find('Author').text
+            title = x.find('Title').text
+            publisher = x.find('Publisher').text
+            pages = x.find('Printing').text
+            year = x.find('Year_of_publishing').text
+            format = x.find('Format').text
+            price = x.find('Price').text
+            print('Информация об идентификационном номере книги: ' + y + '\n'
+            'Номер ISBN: ' + isbn + '\n'
+            'Автор: ' + author + '\n'
+            'Заголовок: ' + title + '\n'
+            'Издатель: ' + publisher + '\n'
+            'Печать: ' + pages + '\n'
+            'Год публикации: ' + year + '\n'
+            'Формат: ' + format + '\n'
+            'Цена: ' + price + '\n')
+            if author == '':
+                print('Номер ISBN недействителен')
+    return
+def numbook_year(year_input):
+    #Calculate the number of books for a given publication year.
+    count = 0
+    for x in myroot.findall('Book'):
+        y = x.attrib['id']
+        year = x.find('Year_of_publishing').text
+        if year == year_input:
+            count = count+1
+    if count != 0:
+        print('Всего книг, опубликованных в ' + year_input + ' = ' + str(count))
+    else:
+        print('В этой базе данных нет данных о Книге, опубликованной в ' +year_input)
+    return
+def aver_cost(publisher_input):
+    #Calculate the average cost of books for each publisher.
+    price_count=0
+    book_count = 0
+    for x in myroot.findall('Book'):
+        y = x.attrib['id']
+        publisher = x.find('Publisher').text
+        if publisher == publisher_input:
+            price = x.find('Price').text
+            price_count = price_count + int(price)
+            book_count = book_count + 1
+    if book_count != 0:
+        average = int(price_count/book_count)
+        print('Средняя стоимость книги от Издательствa(-ом) '+publisher_input+' = '+str(average))
+    else:
+        print('В этой базе данных нет данных о Книге, опубликованной ' +publisher_input)
+    return
+def pricey(publisher_input, year_input):
+    #Display information about the most expensive book (s) by given publisher and year of publication.
+    expensive = 0
+    for x in myroot.findall('Book'):
+        y = x.attrib['id']
+        publisher = x.find('Publisher').text
+        year = x.find('Year_of_publishing').text
+        if publisher == publisher_input and year == year_input:
+            price = x.find('Price').text
+            if int(price) > int(expensive):
+                expensive = price
+            else:
+                expensive = expensive
+
+    if expensive != 0:
+        print('Самая дорогая книга, изданная Издательствa(-ом) '+publisher_input+ ' в ' + year_input+' = '+str(expensive))
+    else:
+        print('В этой базе данных нет данных о Книге, опубликованной ' +publisher_input+' в ' + year_input)
+    return
+def menu():
+    print('''Выберите один номер из списка:
+    1. Вывести полную информацию по id книги.
+    2. Вывести полную информацию о книге по ISBN.
+    3. Подсчитать количество книг по заданному году издания.
+    4. Подсчитать среднюю стоимость книг по каждому издательству.
+    5. Вывести информацию о самой дорогой книге(ах) по заданным издательству и году издания.
+    6. Выход''')
+ans=True
+while ans:
+    menu()
+    choice = input('Введите свой выбор: ')
+    if choice in ['1','2','3','4','5','6']:
+        if choice == '1': # FIND THE ID INFORMATION
+            idbook = input('Введите идентификатор книги: ') #enter the book ID
+            #idbook = '259581'
+            no_id(idbook)
+        elif choice == '2': #FIND THE DATA BY ISBN
+            #isbn_input = '978-5-91852-185-4'
+            isbn_input = input('Введите номер ISBN:') #enter the ISBN number
+            isbn(isbn_input)
+        elif choice == '3': #Calculate the number of books for a given publication year
+            year_input = input('Введите год публикации: ') #Input the publication year
+            #year_input = '2018'
+            numbook_year(year_input)
+        elif choice == '4': #Calculate the average cost of books for each publisher.
+            publisher_input = input('Введите имя издателя:') #Enter the publisher name
+            #publisher_input = 'Евразия.'
+            aver_cost(publisher_input)
+        elif choice == '5': #Display information about the most expensive book (s) by given publisher and year of publication
+            publisher_input = input('Введите имя издателя:') #Enter the publisher name
+            year_input = input('Введите год публикации: ') #Input the publication year
+            #publisher_input = 'Евразия.'
+            #year_input = '2018'
+            pricey(publisher_input, year_input)
+        elif choice == '6':
+            print('Процесс завершен')
+            ans = False
+    else:
+        choice = input('Введенный вами номер недоступен. Нажмите Enter, чтобы повторить еще раз')
