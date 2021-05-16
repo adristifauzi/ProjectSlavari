@@ -115,6 +115,7 @@ def menu():
     4. Подсчитать среднюю стоимость книг по каждому издательству.
     5. Вывести информацию о самой дорогой книге(ах) по заданным издательству и году издания.
     6. Выход''')
+    return
     
     
 ans=True
@@ -125,13 +126,17 @@ while ans:
         if choice == '1': # FIND THE ID INFORMATION
             idbook = input('Введите идентификатор книги: ') #enter the book ID
             no_id(idbook)
+            if no_id(idbook) is None:
+                print('Этот идентификатор книги недействителен')
             ask = input('Вы хотите снова выбрать из списка меню?(да/нет): ')
             if ask == 'нет':
                 print('Процесс завершен')
                 ans = False
         elif choice == '2': #FIND THE DATA BY ISBN
-            isbn_input = input('Введите номер ISBN:') #enter the ISBN number
+            isbn_input = input('Введите номер ISBN: ') #enter the ISBN number
             isbn(isbn_input)
+            if isbn(isbn_input) is None:
+                print('Этот номер ISBN недействителен')
             ask = input('Вы хотите снова выбрать из списка меню?(да/нет): ')
             if ask == 'нет':
                 print('Процесс завершен')
