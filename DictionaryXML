@@ -126,8 +126,8 @@ while ans:
         if choice == '1': # FIND THE ID INFORMATION
             idbook = input('Введите идентификатор книги: ') #enter the book ID
             no_id(idbook)
-            if no_id(idbook) is None:
-                print('Этот идентификатор книги недействителен')
+            #if no_id(idbook) is None:
+            #    print('Этот идентификатор книги недействителен')
             ask = input('Вы хотите снова выбрать из списка меню?(да/нет): ')
             if ask == 'нет':
                 print('Процесс завершен')
@@ -135,8 +135,8 @@ while ans:
         elif choice == '2': #FIND THE DATA BY ISBN
             isbn_input = input('Введите номер ISBN: ') #enter the ISBN number
             isbn(isbn_input)
-            if isbn(isbn_input) is None:
-                print('Этот номер ISBN недействителен')
+            #if isbn(isbn_input) is None:
+            #    print('Этот номер ISBN недействителен')
             ask = input('Вы хотите снова выбрать из списка меню?(да/нет): ')
             if ask == 'нет':
                 print('Процесс завершен')
